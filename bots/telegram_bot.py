@@ -50,10 +50,16 @@ def create_telegram_bot(token, chat_id, blacklist=None, http_proxy=None, loop=No
                 # TODO 处理没有text的message
                 if 'text' not in message:
                     continue
-                final_msg = '[{author}] {msg}'.format(
-                    author=author,
-                    msg=message['text'],
-                )
+                if author in ['tgcl','qqcl']:
+                    final_msg = ' {msg}'.format(
+                        author=author,
+                        msg=message['text'],
+                    )
+                else:
+                    final_msg = '{author}: {msg}'.format(
+                        author=author,
+                        msg=message['text'],
+                    )
                 await receive_queue.put(final_msg)
             if len(resp['result']) > 0:
                 message_id = resp['result'][-1]['update_id'] + 1

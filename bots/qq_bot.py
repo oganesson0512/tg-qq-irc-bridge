@@ -60,7 +60,10 @@ def create_qq_bot(base_uri, group_id, blacklist=None, password=None, loop=None):
             author = resp['data']['card']
             if not author:
                 author = resp['data']['nickname']
-            final_msg = '[{author}] {msg}'.format(author=author, msg=html.unescape(text_message))
+            if author in ['qqcl','tgcl']:
+                final_msg = ' {msg}'.format(author=author, msg=html.unescape(text_message))
+            else:
+                final_msg = '{author}: {msg}'.format(author=author, msg=html.unescape(text_message))
             await receive_queue.put(final_msg)
 
     async def send_msg(base_uri):

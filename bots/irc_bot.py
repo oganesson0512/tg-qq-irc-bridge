@@ -47,7 +47,10 @@ def create_irc_bot(server, port, ssl, nick, channel, blacklist=None, password=No
         print({'nick': nick, 'target': target, 'message': message})
         if target != channel: return
         if nick in blacklist: return
-        msg = '[{nick}] {msg}'.format(nick=nick, msg=message)
+        if nick in ['qqcl','tgcl']:
+            msg = ' {msg}'.format(nick=nick, msg=message)
+        else: 
+            msg = '{nick}: {msg}'.format(nick=nick, msg=message)
         await receive_queue.put(msg)
 
     loop.create_task(bot.connect())
